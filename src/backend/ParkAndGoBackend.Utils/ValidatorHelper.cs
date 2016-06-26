@@ -1,0 +1,30 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+
+namespace ParkAndGoBackend.Utils
+{
+    public static class ValidatorHelper
+    {
+        public static void ThrowesIfHasDataAnnotationError(string paramName, object objectToValidate)
+        {
+            if(!TryValidate(objectToValidate))
+                throw new ArgumentException("Validacao dos dados do Paramentro Invalida.", paramName); //TODO: Validar melhor, Informar detalhes do erro na mensagem //TODO: Fix Typo
+        }
+
+        public static bool TryValidate(object @object)
+        {
+            ICollection<ValidationResult> results;
+            var isValid = TryValidate(@object, out results);
+            return isValid;
+        }
+
+        public static bool TryValidate(object @object, out ICollection<ValidationResult> results)
+        {
+            var context = new ValidationContext(@object, serviceProvider: null, items: null);
+            results = new List<ValidationResult>();
+            return Validator.TryValidateObject(@object, context, results, validateAllProperties: true);
+        }
+    }
+}
