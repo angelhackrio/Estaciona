@@ -1,0 +1,199 @@
+-- Supported values for orientation:
+-- portrait, portraitUpsideDown, landscapeLeft, landscapeRight
+
+settings = {
+	
+	orientation = {
+		default = "portrait",
+		supported = { "portrait", "portraitUpsideDown" }
+	},
+    excludeFiles =
+    {
+        all = ignoreAll,
+
+        -- Include only the necessary icon files on each platform
+        iphone = { "Icon-*dpi.png", },
+        android = { "Default.png", "Default@2x.png", "Icon-Small-*.png", "Icon*@2x.png", },
+    },
+	plugins =
+    {
+
+
+    },  
+	iphone = {
+		plist = {
+            NSLocationWhenInUseUsageDescription = "This app uses maps.",
+            NSAppTransportSecurity =
+                 {
+                    NSExceptionDomains =
+                    {
+                       ["google.com"] =
+                       {
+                          NSIncludesSubdomains = true,
+                          NSThirdPartyExceptionAllowsInsecureHTTPLoads = true
+                       },
+                       ["fbcdn.net"] = 
+                        {
+                            NSIncludesSubdomains = true,
+                            NSExceptionRequiresForwardSecrecy = false,
+                        },
+                        ["facebook.com"] = 
+                        {
+                            NSIncludesSubdomains = true,
+                            NSExceptionRequiresForwardSecrecy = false,
+                        },
+                        ["akamaihd.net"] = 
+                        {
+                            NSIncludesSubdomains = true,
+                            NSExceptionRequiresForwardSecrecy = false,
+                        },
+                        ["appjolie.com"] = 
+                        {
+                            NSIncludesSubdomains = true,
+                            NSExceptionRequiresForwardSecrecy = false,
+                        },
+                        ["flurry.com"] =
+                        {
+                            NSIncludesSubdomains = true,
+                            NSThirdPartyExceptionAllowsInsecureHTTPLoads = true
+                        },
+                        ["jolietest.azurewebsites.net"] =
+                        {
+                            NSIncludesSubdomains = true,
+                            NSThirdPartyExceptionAllowsInsecureHTTPLoads = true
+                        },
+                        ["azurewebsites.net"] =
+                        {
+                            NSIncludesSubdomains = true,
+                            NSThirdPartyExceptionAllowsInsecureHTTPLoads = true
+                        },
+
+                    },
+            },
+            -- Whitelist Facebook Apps
+            LSApplicationQueriesSchemes = 
+            {
+                "fb",
+                "fbapi20130214",
+                "fbapi20130410",
+                "fbapi20140410",
+                "fbapi20140116",
+                "fbapi20150313",
+                "fbapi20150629",
+                "fbauth",
+                "fbauth2",
+                "fb-messenger-api20140430",
+            },
+
+            CoronaWindowMovesWhenKeyboardAppears=true,
+            UIBackgroundModes = {"remote-notification"},
+			UIStatusBarHidden = true,
+			UIPrerenderedIcon = true, -- set to false for "shine" overlay
+			--UIApplicationExitsOnSuspend = true, -- uncomment to quit app on suspend
+
+            -- iOS app URL schemes:
+            CFBundleURLTypes =
+            {
+                {
+                    CFBundleURLSchemes =
+                    {
+                        urlSchemeForFB, --"fb985066118217177",                         
+                        urlScheme, -- example second scheme
+                    }
+                }
+            },
+            ["URL types"] =  -- required for Facebook Published Installs
+            {
+                item =
+                {
+                    ["URL Schemes"] = { ["Item 0"] = urlSchemeForFB },  --replace XXXXXXXXXX with your Facebook App ID
+                },
+            },
+
+            --icon image files table
+            CFBundleIconFiles = {
+                "Icon.png",
+                "Icon@2x.png",
+                "Icon-60.png",
+                "Icon-60@2x.png",
+                "Icon-60@3x.png",
+                "Icon-72.png",
+                "Icon-72@2x.png",
+                "Icon-76.png",
+                "Icon-76@2x.png",
+                "Icon-Small-40.png",
+                "Icon-Small-40@2x.png",
+                "Icon-Small-40@3x.png",
+                "Icon-Small-50.png",
+                "Icon-Small-50@2x.png",
+                "Icon-Small.png",
+                "Icon-Small@2x.png",
+                "Icon-Small@3x.png"
+            },
+            --launch image files table (see section below)
+            --launch image files table
+            UILaunchImages = {
+                {  -- iPhone 4 Portrait
+                    ["UILaunchImageMinimumOSVersion"] = "7.0",
+                    ["UILaunchImageName"] = "Default",
+                    ["UILaunchImageOrientation"] = "Portrait",
+                    ["UILaunchImageSize"] = "{320, 480}"
+                },
+
+                {  -- iPhone 5 Portrait
+                    ["UILaunchImageMinimumOSVersion"] = "7.0",
+                    ["UILaunchImageName"] = "Default-568h",
+                    ["UILaunchImageOrientation"] = "Portrait",
+                    ["UILaunchImageSize"] = "{320, 568}"
+                },
+
+                {  -- iPad Portrait
+                    ["UILaunchImageMinimumOSVersion"] = "7.0",
+                    ["UILaunchImageName"] = "Default-Portrait",
+                    ["UILaunchImageOrientation"] = "Portrait",
+                    ["UILaunchImageSize"] = "{768, 1024}"
+                },
+
+                {  -- iPhone 6 Portrait
+                    ["UILaunchImageMinimumOSVersion"] = "8.0",
+                    ["UILaunchImageName"] = "Default-667h",
+                    ["UILaunchImageOrientation"] = "Portrait",
+                    ["UILaunchImageSize"] = "{375, 667}"
+                },
+
+                {  -- iPhone 6 Plus Portrait
+                    ["UILaunchImageMinimumOSVersion"] = "8.0",
+                    ["UILaunchImageName"] = "Default-736h",
+                    ["UILaunchImageOrientation"] = "Portrait",
+                    ["UILaunchImageSize"] = "{414, 736}"
+                },
+
+            },
+		}
+	},
+	
+	android =
+    {        
+        --versionCode = "11",
+        allowAppsReadOnlyAccessToFiles = false,
+
+        coronaWindowMovesWhenKeyboardAppears = true,
+
+     
+        --the following permissions are required to download expansion files.
+        usesPermissions =
+        {
+            "android.permission.INTERNET",
+             "android.permission.CAMERA",
+             "android.permission.READ_EXTERNAL_STORAGE", -- required by some Android app/devices to read album
+            --"com.android.vending.CHECK_LICENSE",
+            --"android.permission.WRITE_EXTERNAL_STORAGE"
+        },
+        usesFeatures =
+        {
+            { name="android.hardware.camera", required=false },
+            { name="android.hardware.location", required=false },
+            { name="android.hardware.location.gps", required=false },
+        }
+    },
+}
